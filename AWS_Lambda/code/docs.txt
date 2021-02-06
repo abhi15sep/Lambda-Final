@@ -1,0 +1,23 @@
+pre-requisite:
+nodejs and python3
+
+Command:
+1. sudo npm install -g serverless
+2. serverless config credentials --provider aws --key <aws-key> --secret <aws-secret> --overwrite
+3. serverless create --help
+4. serverless create --template aws-python3
+5. sls deploy -v
+6. sls invoke local --function hello  (local invoke)
+7. sls logs -f hello
+8. sls invoke --function hello  (remote invoke)
+
+For api-lambda:
+===============
+sudo apt install virtualenv
+virtualenv venv --python=python3
+source venv/bin/activate
+sudo apt install python3-pip
+pip3 install -r requirements.txt
+npm install --save serverless-python-requirements
+sls invoke local --function hello
+sudo sls deploy -v

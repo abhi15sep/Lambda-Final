@@ -1,0 +1,170 @@
+swagger: "2.0"
+info:
+  title: "Drive Auth Service"
+  description: "https://4p1q9ue43m.execute-api.eu-central-1.amazonaws.com/test"
+  version: "1.0.0"
+basePath: "/"
+schemes:
+- "https"
+paths:
+  /signup:
+    post:
+      summary: "Sign up"
+      operationId: "signUp"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/SignUpRequest"
+      responses:
+        401:
+          description: "Unauthorized"
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        201:
+          description: "Successful sign-up"
+  /signin:
+    post:
+      summary: "Sign in"
+      operationId: "signIn"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/SignInRequest"
+      responses:
+        401:
+          description: "Unauthorized"
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        200:
+          description: "Successful authentication response containing access/refresh token to be saved on the client's end"
+          schema:
+            $ref: '#/definitions/AuthenticationSuccessfulResponse'
+            
+  /user/{id}/confirm:
+    post:
+      summary: "Confirm phone number"
+      operationId: "postConfirm"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "id"
+          description: "User ID"
+          required: true
+          type: string
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: '#/definitions/ConfirmRequest'
+      responses:
+        401:
+          description: "Unable to confirm phone number"
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        200:
+          description: "Phone number confirmed"
+    get:
+      summary: "Check confirmation status"
+      operationId: "getConfirm"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "id"
+          description: "User ID"
+          required: true
+          type: string
+      responses:
+        200:
+          description: 'Confirmation status'
+          schema:
+            $ref: '#/definitions/ConfirmStatusResponse'
+definitions:
+  SignUpRequest:
+    type: object
+    required:
+      - phone_number
+      - password
+      - given_name
+      - family_name
+    properties:
+      phone_number:
+        type: string
+        example: "+31615565542"
+      password:
+        type: string
+        example: "sup3rP4ssw0rd"
+      given_name:
+        type: string
+        example: "Ariel"
+      family_name:
+        type: string
+        example: "Weinberger"
+        
+  SignInRequest:
+    type: object
+    required:
+      - email
+      - password
+    properties:
+      phone_number:
+        type: string
+      password:
+        type: string
+
+  ErrorResponse:
+    type: object
+    properties:
+      code:
+        type: "string"
+        description: "AWS Cognito error code"
+        example: "UserNotFoundException"
+        
+  AuthenticationSuccessfulResponse:
+    type: object
+    properties:
+      TokenType:
+        type: string
+        example: "Bearer"
+      AccessToken:
+        type: string
+        example: "jwt"
+      RefreshToken:
+        type: string
+        example: "jwt"
+      ExpiresIn:
+        type: number
+        example: 3600
+        
+  ConfirmRequest:
+    type: object
+    properties:
+      confirmationCode:
+        type: string
+        description: "Confirmation code sent via SMS"
+        example: "422819"
+        
+  ConfirmStatusResponse:
+    type: object
+    properties:
+      confirmed:
+        type: boolean
+        description: "Whether the user has been confirmed or not"
+        example: "true"

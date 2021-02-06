@@ -1,0 +1,59 @@
+service: drive-auth
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-dotenv-plugin
+  - serverless-offline
+
+provider:
+  name: aws
+  profile: driver
+  runtime: nodejs10.x
+  region: eu-central-1
+  memorySize: 256
+  iamRoleStatements: ${file(resources/role.yml):iamRoleStatements}
+  environment:
+    COGNITO_POOL_ID: ${env:COGNITO_POOL_ID}
+    COGNITO_CLIENT_ID: ${env:COGNITO_CLIENT_ID}
+
+package:
+  exclude:
+    - '**/*.ts'
+    
+functions:
+  signup:
+    handler: handlers/signUp.handler
+    events:
+      - http:
+          path: signup
+          method: post
+          cors: true
+  signin:
+    handler: handlers/signIn.handler
+    events:
+      - http:
+          path: signin
+          method: post
+          cors: true
+  getConfirmationStatus:
+    handler: handlers/getConfirmationStatus.handler
+    events:
+      - http:
+          path: user/{id}/confirm
+          method: get
+          cors: true
+          request:
+            parameters:
+              paths:
+                id: true
+  confirm:
+    handler: handlers/confirm.handler
+    events:
+      - http:
+          path: user/{id}/confirm
+          method: post
+          cors: true
+          request:
+            parameters:
+              paths:
+                id: true

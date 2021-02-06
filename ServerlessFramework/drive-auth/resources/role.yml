@@ -1,0 +1,5 @@
+iamRoleStatements:
+  - Effect: 'Allow'
+    Action:
+      - 'cognito-idp:*'
+    Resource: ${env:COGNITO_POOL_ARN}
