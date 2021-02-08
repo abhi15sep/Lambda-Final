@@ -1,0 +1,15 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "Stmt1496653369000",
+            "Effect": "Allow",
+            "Action": [
+                "dynamodb:DeleteItem"
+            ],
+            "Resource": [
+                "arn:aws:dynamodb:YOUR-REGION:YOUR-ACCOUNT-ID:table/compare-yourself"
+            ]
+        }
+    ]
+}

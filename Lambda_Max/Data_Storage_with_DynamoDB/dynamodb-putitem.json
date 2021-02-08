@@ -1,0 +1,15 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "Stmt1496652234000",
+            "Effect": "Allow",
+            "Action": [
+                "dynamodb:PutItem"
+            ],
+            "Resource": [
+                "arn:aws:dynamodb:YOUR-REGION:YOUR-ACCOUNT-ID:table/compare-yourself"
+            ]
+        }
+    ]
+}
