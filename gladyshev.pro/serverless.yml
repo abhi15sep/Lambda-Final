@@ -1,0 +1,26 @@
+service: gladyshev-pro-service
+
+plugins:
+  - serverless-finch
+
+provider:
+  name: aws
+
+custom:
+  siteName: gladyshev.pro
+  aliasHostedZoneId: ${ssm:GladyshevProAliasHostedZoneId}   
+  aliasDNSName: s3-website-us-east-1.amazonaws.com
+
+  client:
+    bucketName: gladyshev.pro
+
+DnsRecord:
+      Type: "AWS::Route53::RecordSet"
+      Properties:
+        AliasTarget:
+          DNSName: ${self:custom.aliasDNSName}
+          HostedZoneId: ${self:custom.aliasHostedZoneId}
+        HostedZoneName: ${self:custom.siteName}.
+        Name:
+          Ref: ${self:custom.client.bucketName}
+        Type: 'A'
