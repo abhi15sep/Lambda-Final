@@ -1,0 +1,29 @@
+Resources:
+  SiteBucket: # static site content
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: ${self:custom.domain}
+  SiteLogBucket: # site access logs
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: LogDeliveryWrite
+      BucketName: ${self:custom.domain}-logs
+  SiteBucketPolicy: # only cloudfront reads only (prevent direct bucket access)
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref SiteBucket
+      PolicyDocument:
+        Statement:
+          - Sid: PublicReadGetObject
+            Effect: Allow
+            Principal:
+              CanonicalUser:
+                !GetAtt CloudFrontOAI.S3CanonicalUserId
+            Action:
+            - s3:GetObject
+            Resource:
+              Fn::Join:
+                - ""
+                - - "arn:aws:s3:::"
+                  - !Ref SiteBucket
+                  - "/*"

@@ -1,0 +1,15 @@
+# logs
+logs
+*.log
+
+# package directories
+node_modules
+ 
+# Serverless directories
+.serverless
+
+# configuration file
+config.json
+
+# OSX
+.DS_Store

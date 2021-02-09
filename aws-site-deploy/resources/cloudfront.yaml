@@ -1,0 +1,39 @@
+Resources:
+  CloudFrontOAI:
+    Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
+    Properties:
+      CloudFrontOriginAccessIdentityConfig:
+        Comment: "CloudFront OAI"
+  CloudFrontDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Enabled: true
+        PriceClass: PriceClass_100
+        DefaultRootObject: ${self:custom.rootObject}
+        Logging:
+          Bucket: !GetAtt SiteLogBucket.DomainName
+          IncludeCookies: true
+          Prefix: ${self:custom.logPrefix}
+        DefaultCacheBehavior:
+          CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6 # Managed-CachingOptimized
+          ViewerProtocolPolicy: redirect-to-https
+          TargetOriginId: ${self:service}-s3-origin
+        Aliases:
+          - ${self:custom.domain}
+        ViewerCertificate:
+          AcmCertificateArn: ${certificate:${self:custom.customCertificate.certificateName}:CertificateArn}
+          SslSupportMethod: sni-only
+        CustomErrorResponses: # redirect to home page if users refresh/get 403 error
+          - ErrorCode: 403
+            ResponseCode: 200
+            ResponsePagePath: /${self:custom.rootObject}
+        Origins:
+          - Id: ${self:service}-s3-origin
+            DomainName: !GetAtt SiteBucket.DomainName
+            S3OriginConfig:
+              OriginAccessIdentity:
+                Fn::Join:
+                  - ""
+                  - - 'origin-access-identity/cloudfront/'
+                    - !Ref CloudFrontOAI

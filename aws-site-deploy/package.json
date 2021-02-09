@@ -1,0 +1,26 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "backend for static website deployment via AWS & serverless framework",
+  "main": "index.js",
+  "scripts": {
+    "deploy": "sls create-cert && sls deploy",
+    "remove": "sls remove && sls remove-cert",
+    "config": "node config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/averydl/aws-site-deploy.git"
+  },
+  "author": "Derek Avery",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/averydl/aws-site-deploy/issues"
+  },
+  "homepage": "https://github.com/averydl/aws-site-deploy#readme",
+  "devDependencies": {
+    "prompt": "^1.1.0",
+    "serverless-certificate-creator": "^1.4.0",
+    "serverless-s3-sync": "^1.15.0"
+  }
+}

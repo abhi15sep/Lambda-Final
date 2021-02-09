@@ -1,0 +1,10 @@
+Resources: 
+  PrimaryDnsRecord:
+    Type: "AWS::Route53::RecordSet"
+    Properties:
+      AliasTarget:
+        DNSName: !GetAtt CloudFrontDistribution.DomainName
+        HostedZoneId: Z2FDTNDATAQYW2 # cloudfront zoneid - do not change
+      HostedZoneName: ${self:custom.domain}.
+      Name: ${self:custom.domain}
+      Type: 'A'
