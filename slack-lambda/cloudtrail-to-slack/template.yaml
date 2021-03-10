@@ -1,0 +1,19 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'notify cloudtrail event logs to slack'
+
+Globals:
+  Function:
+    Timeout: 5
+
+Resources:
+  CloudTrailToSlackFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/
+      Handler: index.handler
+      Runtime: nodejs10.x
+      Environment:
+        Variables:
+          SLACK_TOKEN: ""
+          SLACK_CHANNEL: ""

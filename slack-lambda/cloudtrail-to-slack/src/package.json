@@ -1,0 +1,17 @@
+{
+  "name": "cloudtrail-to-slack",
+  "version": "1.0.0",
+  "main": "index.js",
+  "description": "Lambda function which notify cloudtrail event logs to slack.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0"
+  },
+  "dependencies": {
+    "@slack/web-api": "^5.0.1",
+    "luxon": "^1.15.0",
+    "zlib": "^1.0.5"
+  }
+}
