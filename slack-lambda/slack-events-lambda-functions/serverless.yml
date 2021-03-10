@@ -1,0 +1,22 @@
+service: slack-aws-endpoint
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: us-east-1
+  environment: 
+    SLACK_TOKEN_BOT: 
+
+functions:
+  slackEvent:
+    handler: src/index.handler
+    events:
+      - http:
+          path: /slack-event
+          method: ANY
+
+plugins: 
+  - serverless-offline
