@@ -1,0 +1,18 @@
+.DS_Store
+.pyc
+
+# Dependency directories
+node_modules
+jspm_packages
+venv
+coverage
+.nyc_output
+
+# Serverless directories
+.serverless
+
+# ignore serverless.yml
+serverless.yml
+
+.idea/
+.vscode/
