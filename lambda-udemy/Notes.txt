@@ -1,0 +1,21 @@
+1. To check best optimum configuration value of lambda function:
+> lumigo-cli -h
+> lumigo-cli powertune-lambda -n io-bound-example(function_name) -r us-east-1(region) 
+> lumigo-cli powertune-lambda -n io-bound-example(function_name) -r us-east-1(region) -s speed
+> lumigo-cli powertune-lambda -n cpu-bound-example(function_name) -r us-east-1(region) -s speed --payload '{"n":10000000}'
+> lumigo-cli powertune-lambda -n cpu-bound-example(function_name) -r us-east-1(region) -s balanced --payload '{"n":10000000}'
+
+2. Analysize lambda cold-starts across region:
+> lumigo-cli analyze-lambda-cold-starts -r us-east-1 -h 6
+
+3. Measuring cold start performance:
+> lumigo-cli measure-lambda-cold-starts -r us-east-1 -n aws-sdk-example(function_name) -i 100(number of times to run)
+
+4. Load Testing Tools:
+  a) Artillery
+  b) https://github.com/Nordstrom/serverless-artillery
+
+5. Get ALL IAM Actions by resource:
+    https://iam.cloudonaut.io
+
+6. Use middy npm package to fetch and manage secrets.
