@@ -3,6 +3,8 @@ from urllib import parse as urlparse
 import base64
 from functools import lru_cache
 import math
+import boto3
+import os
 
 @lru_cache(maxsize=60)
 def isPrime(i):
@@ -20,6 +22,14 @@ def isPrime(i):
 commands = {'isprime':isPrime,'prime':isPrime }   # map of command aliases
 
 def lambda_handler(event, context):
+
+	# Read token from ssm parameter store
+    session = boto3.Session(region_name='eu-west-2')
+    ssm = session.client('ssm')
+    SLACK_TOKEN = os.environ.get('SLACK_TOKEN')
+    token = ssm.get_parameter(Name=SLACK_TOKEN, WithDecryption=True)
+    print("token: {}".format(token['Parameter']['Value']))
+
     msg_map = dict(urlparse.parse_qsl(base64.b64decode(str(event['body'])).decode('ascii')))  # data comes b64 and also urlencoded name=value& pairs
     
     # will be /command name
