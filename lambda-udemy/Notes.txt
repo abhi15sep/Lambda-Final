@@ -19,3 +19,5 @@
     https://iam.cloudonaut.io
 
 6. Use middy npm package to fetch and manage secrets.
+
+7. Use serverless plugin for serverless API throttling.
