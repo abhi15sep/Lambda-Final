@@ -1,0 +1,4 @@
+{
+    "sourceIp" : "$context.identity.sourceIp",
+    "secret": "$input.params('secret')"
+}
